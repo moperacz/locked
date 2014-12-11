@@ -95,13 +95,13 @@ Node.prototype.write = function(prevValue, done){
 		self.tryLock()
 	}, this._ttl * 1000)
 
-	this._etcd.set(this._path, this.localdata(), {
-		prevExist:false,
-		ttl:this._ttl
-	}, function(err, result){
-		clearTimeout(leaderTimeout)
-		done(err, result)
-	})
+	this._etcd.set(this._path, this.localdata(),
+		opts,
+		function(err, result){
+			clearTimeout(leaderTimeout)
+			done(err, result)
+		}
+	)
 }
 
 Node.prototype.writeBlank = function(done){
